@@ -1,0 +1,4 @@
+wget https://raw.githubusercontent.com/Skiret/Spacecross/main/nn
+wget https://raw.githubusercontent.com/Skiret/Spacecross/main/nano
+wget https://raw.githubusercontent.com/Skiret/Spacecross/main/nscan
+del installer_nano

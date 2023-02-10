@@ -1,0 +1,3 @@
+wget https://raw.githubusercontent.com/Skiret/Spacecross/main/mem_tablet
+wget https://raw.githubusercontent.com/Skiret/Spacecross/main/mems.txt
+del installer_mem

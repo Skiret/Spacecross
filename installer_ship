@@ -1,0 +1,5 @@
+install
+wget -f https://raw.githubusercontent.com/Skiret/Spacecross/main/startup
+wget -f https://raw.githubusercontent.com/Skiret/Spacecross/main/warpdriveCommons.lua
+del installer_ship
+edit /usr/lib/warpdriveCommons.lua

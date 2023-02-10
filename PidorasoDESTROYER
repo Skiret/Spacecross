@@ -1,0 +1,24 @@
+local component = require("component")
+local term = require("term")
+event = require("event")
+
+local c = component.chat
+local rs = component.redstone
+
+c.setName("§cПидорасо§4§lDESTROYER§7§o")
+
+	while true do
+local e = {event.pull()}
+  if e[1] == "chat_message" then
+  local ply_name = e[3]
+  local message = string.upper (e[4])
+if message == "KILL" and ply_name == "Skiret" then
+  print("§eСигнал получен, §2щит!")
+  rs.setOutput(4,15)
+  c.say("§4!ВНИМАНИЕ! §eУбиваю §4ПИДОРАСОВ §eв доме!")
+  os.sleep(8)
+  rs.setOutput(4,0)
+  c.say("§eВсе §4ПИДОРАСЫ §2убиты!")
+end
+end
+end

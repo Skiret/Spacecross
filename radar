@@ -1,0 +1,63 @@
+local distance = 50
+local period=5
+local whitelistFilename = "radar_whitelist"
+local addr = ""--cURL сюда
+
+local component = require("component")
+local internet = require("internet")
+local event = require("event")
+
+local function readWhitelist(filename)
+  local file = io.open(filename, "r")
+  local arr = {}
+  for line in file:lines() do
+    arr[line]=true
+  end
+  return arr
+end
+
+local function checkWhitelist(entities, whitelist)
+  local notInWhitelist = {}
+  for k in pairs(entities) do
+    if not whitelist[entities[k].name] then
+      table.insert(notInWhitelist, entities[k])
+    end
+  end
+  return notInWhitelist
+end
+
+local function convert(entities)
+  local list = {}
+  for k in pairs(entities) do
+    local entity = entities[k]
+    list[#list+1] = string.format("%s %.0f", entity.name, entity.distance)
+  end
+  return table.concat(list, "\n")
+end
+
+local function printWhitelist(whitelist)
+  local list = {}
+  for k in pairs(whitelist) do
+    list[#list+1] = k
+    print(k)
+  end
+  print("Whitelist:", table.concat(list, ", "))
+end
+
+local whitelist = readWhitelist(whitelistFilename)
+printWhitelist(whitelist)
+component.redstone.setWakeThreshold(15)
+
+repeat
+  local players = component.radar.getPlayers(distance)
+  --local players = component.radar.getEntities(distance)
+  local notInWL = checkWhitelist(players, whitelist)
+
+  print(#notInWL)
+
+  if #notInWL > 0 then
+    local playersString = convert(notInWL)
+    local req = internet.request(addr, {data=playersString})
+  end
+  os.sleep(period)
+until event.pull(1) == "interrupted"
